@@ -118,6 +118,7 @@ def load(name: str, device: Union[str, torch.device] = "cuda" if torch.cuda.is_a
     """
     if name in _MODELS:
         model_path = _download(_MODELS[name], download_root or os.path.expanduser("~/.cache/clip"))
+        print(model_path)
     elif os.path.isfile(name):
         model_path = name
     else:
@@ -136,6 +137,7 @@ def load(name: str, device: Union[str, torch.device] = "cuda" if torch.cuda.is_a
             state_dict = torch.load(opened_file, map_location="cpu")
 
     if not jit:
+        print(build_model)
         model = build_model(state_dict or model.state_dict()).to(device)
         if str(device) == "cpu":
             model.float()
